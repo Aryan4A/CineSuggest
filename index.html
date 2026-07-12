@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineSuggest</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo" id="nav-logo">Cine<span>Suggest</span></div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#" id="nav-home" class="active">Home</a></li>
+                <li><a href="#" id="nav-favorites">Favorites</a></li>
+            </ul>
+        </nav>
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Search movies...">
+            <button id="search-btn"><i class="fas fa-search"></i></button>
+        </div>
+    </header>
+
+    <main id="app-container">
+        <div id="spinner" class="spinner hidden"></div>
+
+        <section id="view-home" class="view active">
+            <div class="hero">
+                <div class="hero-content">
+                    <h1>Discover Your Next Favorite Movie</h1>
+                    <p>Explore trending blockbusters, hidden gems, and critically acclaimed masterpieces.</p>
+                </div>
+            </div>
+            <div class="container">
+                <h2 class="section-title">Trending Now</h2>
+                <div id="movies-grid" class="movies-grid"></div>
+            </div>
+        </section>
+
+        <section id="view-favorites" class="view hidden">
+            <div class="container">
+                <h2 class="section-title">Your Favorites</h2>
+                <div id="favorites-grid" class="movies-grid"></div>
+                <div id="no-favorites-msg" class="hidden message">You haven't added any favorites yet.</div>
+            </div>
+        </section>
+
+        <section id="view-details" class="view hidden">
+            </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="logo">Cine<span>Suggest</span></div>
+            <div class="social-icons">
+                <i class="fab fa-twitter"></i>
+                <i class="fab fa-instagram"></i>
+                <i class="fab fa-github"></i>
+            </div>
+            <p>&copy; 2026 CineSuggest.</p>
+        </div>
+    </footer>
+
+    <script src="js/api.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
