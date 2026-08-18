@@ -16,6 +16,7 @@
         <nav>
             <ul class="nav-links">
                 <li><a href="#" id="nav-home" class="active">Home</a></li>
+                <li><a href="#" id="nav-recommend">For You</a></li>
                 <li><a href="#" id="nav-favorites">Favorites</a></li>
             </ul>
         </nav>
@@ -34,12 +35,100 @@
                 <div class="hero-content">
                     <h1>Discover Your Next Favorite Movie</h1>
                     <p>Explore trending blockbusters, hidden gems, and critically acclaimed masterpieces.</p>
+                    <button id="hero-recommend-btn" class="recommend-hero-btn">
+                        <i class="fas fa-wand-magic-sparkles"></i> Find Movies For Me
+                    </button>
                 </div>
             </div>
             <div class="container">
                 <h2 class="section-title">Trending Now</h2>
                 <div id="movies-grid" class="movies-grid"></div>
                 <div id="genre-rows"></div>
+            </div>
+        </section>
+
+        <section id="view-recommendations" class="view hidden">
+            <div class="container">
+                <div class="recommendation-header">
+                    <span class="recommendation-kicker">CineSuggest For You</span>
+                    <h2 class="section-title">What do you feel like watching?</h2>
+                    <p class="recommendation-subtitle">
+                        Tell us your preferences. We’ll find movies without asking you to already know a title.
+                    </p>
+                </div>
+
+                <div class="preference-panel">
+                    <div class="preference-group">
+                        <label for="pref-genre">Genre</label>
+                        <select id="pref-genre">
+                            <option value="">Any genre</option>
+                        </select>
+                    </div>
+
+                    <div class="preference-group">
+                        <label for="pref-mood">Mood</label>
+                        <select id="pref-mood">
+                            <option value="popular">Popular & easy to pick</option>
+                            <option value="feel-good">Feel-good</option>
+                            <option value="exciting">Exciting</option>
+                            <option value="mind-bending">Mind-bending</option>
+                            <option value="dark">Dark</option>
+                            <option value="emotional">Emotional</option>
+                            <option value="highly-rated">Highly rated</option>
+                        </select>
+                    </div>
+
+                    <div class="preference-group">
+                        <label for="pref-language">Language</label>
+                        <select id="pref-language">
+                            <option value="">Any language</option>
+                            <option value="en">English</option>
+                            <option value="hi">Hindi</option>
+                            <option value="mr">Marathi</option>
+                            <option value="ko">Korean</option>
+                            <option value="ja">Japanese</option>
+                            <option value="fr">French</option>
+                            <option value="es">Spanish</option>
+                        </select>
+                    </div>
+
+                    <div class="preference-group">
+                        <label for="pref-rating">Minimum rating</label>
+                        <select id="pref-rating">
+                            <option value="0">Any rating</option>
+                            <option value="7">7+</option>
+                            <option value="7.5">7.5+</option>
+                            <option value="8">8+</option>
+                        </select>
+                    </div>
+
+                    <div class="preference-group">
+                        <label for="pref-era">Release period</label>
+                        <select id="pref-era">
+                            <option value="">Any time</option>
+                            <option value="recent">Last 3 years</option>
+                            <option value="2010s">2010–2019</option>
+                            <option value="2000s">2000–2009</option>
+                            <option value="classic">Before 2000</option>
+                        </select>
+                    </div>
+
+                    <button id="get-recommendations-btn" class="recommend-submit">
+                        <i class="fas fa-wand-magic-sparkles"></i> Get My Recommendations
+                    </button>
+                </div>
+
+                <div id="recommendation-results" class="recommendation-results hidden">
+                    <div class="recommendation-result-heading">
+                        <div>
+                            <span class="recommendation-kicker">Your Picks</span>
+                            <h2 class="section-title">Recommended for You</h2>
+                        </div>
+                        <button id="change-preferences-btn" class="secondary-btn">Change Preferences</button>
+                    </div>
+                    <p id="recommendation-summary" class="recommendation-summary"></p>
+                    <div id="recommendations-grid" class="movies-grid"></div>
+                </div>
             </div>
         </section>
 

@@ -1,15 +1,14 @@
-// CineSuggest - TMDB API through Vercel backend
+// CineSuggest - TMDB requests go through the Vercel backend
 
 const BASE_URL = '/api/movies';
 
-// TMDB image servers
 const IMG_URL = 'https://image.tmdb.org/t/p/w500';
 const IMG_URL_ORIGINAL = 'https://image.tmdb.org/t/p/original';
 
 async function fetchAPI(endpoint, params = {}) {
     try {
         const query = new URLSearchParams({
-            endpoint: endpoint,
+            endpoint,
             ...params
         });
 
@@ -20,7 +19,6 @@ async function fetchAPI(endpoint, params = {}) {
         }
 
         return await response.json();
-
     } catch (error) {
         console.error('API Fetch Error:', error);
         return null;
@@ -28,15 +26,12 @@ async function fetchAPI(endpoint, params = {}) {
 }
 
 const API = {
-
     getTrending: async () => {
         return await fetchAPI('/trending/movie/week');
     },
 
     searchMovies: async (query) => {
-        return await fetchAPI('/search/movie', {
-            query: query
-        });
+        return await fetchAPI('/search/movie', { query });
     },
 
     getMovieDetails: async (id) => {
@@ -54,5 +49,30 @@ const API = {
             with_genres: genreId,
             sort_by: 'popularity.desc'
         });
+    },
+
+    getRecommendations: async (preferences) => {
+        const params = {
+            sort_by: preferences.sort_by || 'popularity.desc',
+            include_adult: 'false',
+            include_video: 'false',
+            page: '1'
+        };
+
+        if (preferences.with_genres) params.with_genres = preferences.with_genres;
+        if (preferences.with_original_language) {
+            params.with_original_language = preferences.with_original_language;
+        }
+        if (preferences.vote_average_gte) {
+            params.vote_average_gte = preferences.vote_average_gte;
+        }
+        if (preferences.primary_release_date_gte) {
+            params.primary_release_date_gte = preferences.primary_release_date_gte;
+        }
+        if (preferences.primary_release_date_lte) {
+            params.primary_release_date_lte = preferences.primary_release_date_lte;
+        }
+
+        return await fetchAPI('/discover/movie', params);
     }
 };
