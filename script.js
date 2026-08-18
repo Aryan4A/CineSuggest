@@ -433,3 +433,26 @@ changePreferencesBtn.addEventListener('click', () => {
 
 // Boot app once on load
 init();
+
+
+
+// ================================
+// INTRO SCREEN
+// ================================
+
+const introScreen = document.getElementById('intro-screen');
+const enterSiteBtn = document.getElementById('enter-site-btn');
+
+if (introScreen && enterSiteBtn) {
+
+    enterSiteBtn.addEventListener('click', () => {
+
+        introScreen.classList.add('intro-hidden');
+
+        setTimeout(() => {
+            introScreen.remove();
+        }, 750);
+
+    });
+
+}
