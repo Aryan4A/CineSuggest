@@ -14,6 +14,7 @@ const noFavMsg = document.getElementById('no-favorites-msg');
 // State
 let favorites = JSON.parse(localStorage.getItem('cineSuggestFavs')) || [];
 let isInitialLoadComplete = false;
+let currentTrendingIds = [];
 
 // --- Routing / View Management ---
 function switchView(viewId) {
@@ -36,6 +37,9 @@ async function init() {
     const data = await API.getTrending();
     if (data && data.results) {
         renderMovies(data.results, moviesGrid);
+        renderHeroCollage(data.results);
+        currentTrendingIds = data.results.map(m => m.id);
+        loadGenreRows();
         isInitialLoadComplete = true;
     } else {
         moviesGrid.innerHTML = '<p class="message">Failed to load movies. (Make sure your VPN is on!)</p>';
@@ -46,6 +50,40 @@ async function init() {
 function showSpinner(show) {
     if (show) spinner.classList.remove('hidden');
     else spinner.classList.add('hidden');
+}
+
+// --- Genre Rows ---
+async function loadGenreRows() {
+    const rowsEl = document.getElementById('genre-rows');
+    rowsEl.innerHTML = '';
+    const genreData = await API.getGenres();
+    if (!genreData || !genreData.genres) return;
+
+    const seenIds = new Set(currentTrendingIds);
+    const picks = genreData.genres.slice(0, 6);
+    for (const g of picks) {
+        const data = await API.getMoviesByGenre(g.id);
+        if (!data || !data.results || !data.results.length) continue;
+
+        const unique = data.results.filter(m => !seenIds.has(m.id));
+        if (!unique.length) continue;
+        unique.forEach(m => seenIds.add(m.id));
+
+        const section = document.createElement('div');
+        section.innerHTML = `<h2 class="section-title">${g.name}</h2><div class="movies-grid"></div>`;
+        rowsEl.appendChild(section);
+        renderMovies(unique, section.querySelector('.movies-grid'));
+    }
+}
+
+// --- Hero Collage (built from live trending backdrops) ---
+function renderHeroCollage(movies) {
+    const heroBg = document.getElementById('hero-bg');
+    if (!heroBg) return;
+    const tiles = movies.filter(m => m.backdrop_path).slice(0, 6);
+    heroBg.innerHTML = tiles.map((m, i) => `
+        <div class="hero-tile" style="background-image: url('${IMG_URL_ORIGINAL + m.backdrop_path}'); animation-delay: ${i * 0.15}s;"></div>
+    `).join('');
 }
 
 // --- Render Logic ---
@@ -137,6 +175,7 @@ async function handleSearch() {
     
     switchView('view-home');
     document.querySelector('.hero').classList.add('hidden'); // Hide hero on search
+    document.getElementById('genre-rows').innerHTML = '';
     document.querySelector('#view-home .section-title').textContent = `Search Results for "${query}"`;
     
     showSpinner(true);
@@ -193,6 +232,8 @@ async function goHome() {
     const data = await API.getTrending();
     if (data && data.results) {
         renderMovies(data.results, moviesGrid);
+        currentTrendingIds = data.results.map(m => m.id);
+        loadGenreRows();
     }
     showSpinner(false);
 }
