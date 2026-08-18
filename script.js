@@ -431,6 +431,66 @@ changePreferencesBtn.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 
+
+
+// =========================================
+// BROWSER BACK BUTTON
+// =========================================
+
+history.replaceState(
+    { view: 'view-home' },
+    '',
+    '#home'
+);
+
+function navigateToView(viewId) {
+    history.pushState(
+        { view: viewId },
+        '',
+        `#${viewId}`
+    );
+
+    switchView(viewId);
+}
+
+window.addEventListener('popstate', (event) => {
+
+    const viewId = event.state?.view || 'view-home';
+
+    switchView(viewId);
+
+    if (viewId === 'view-home') {
+        document.querySelector('.hero').classList.remove('hidden');
+
+        document.querySelector('#view-home .section-title').textContent =
+            'Trending Now';
+
+        searchInput.value = '';
+
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }
+
+    if (viewId === 'view-recommendations') {
+        document.querySelector('.hero').classList.add('hidden');
+
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }
+});
+
+
+
+
+
+
+
+
+
 // Boot app once on load
 init();
 
